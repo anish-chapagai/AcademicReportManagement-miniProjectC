@@ -1,0 +1,119 @@
+#include <stdio.h>
+#include <conio.h>
+#include <stdlib.h>
+#include <string.h>
+void add(struct person *);
+void show(struct person *);
+void edit(struct person *);
+void del(struct person *);
+int menu();
+struct person{
+	char name[20];
+	int roll;
+	char div[6];
+	char depart[5];
+	int marks[6];
+//	char sub[6][20]={"PHYSICS","MATHEMATICS","DRAWING","BASIC ELECTRICAL","C PROGRAMMING","APPLIED MECHANICS"};
+}p[20];
+main(){
+	strcpy(p[1].name,"anish");
+	p[1].roll = 004;
+	strcpy(p[1].depart,"BCT");
+	start:
+	switch(menu()){
+		case 1:
+			add(p);
+			break;
+		case 2:
+			//edit(p);
+			break;
+		case 3:
+			//del(p);
+			break;
+		case 4:
+			show(p);
+			break;
+		case 5:
+			//tabulate(p);
+		case 6:
+			system("cls");
+			printf("\n\n<---------------Thank you for using the program---------->\n\n");
+			exit(0);
+		default:
+			printf("Enter valid option: ");
+			break;
+	}
+	goto start;
+}
+void add(struct person *per){
+	int i=0,j=0;
+	printf("Enter name: ");
+	scanf("%s",per[i].name);
+	printf("\nEnter department: ");
+	scanf("%s",per[i].depart);
+	printf("\nEnter Roll Number: ");
+	scanf("%d",&per[i].roll);
+	printf("Enter marks in:\n");
+		printf("Physics: ");
+		scanf("%d",&per[i].marks[j]);
+		j++;
+		printf("Applied Mechanics: ");
+		scanf("%d",&per[i].marks[j]);
+		j++;
+		printf("Drawing: ");
+		scanf("%d",&per[i].marks[j]);
+		j++;
+		printf("C Programming: ");
+		scanf("%d",&per[i].marks[j]);
+		j++;
+		printf("Mathematics: ");
+		scanf("%d",&per[i].marks[j]);
+		j++;
+		printf("Basic Electrical: ");
+		scanf("%d",&per[i].marks[j]);
+}
+int menu(){
+int dec;
+	printf("\t-----------------------------------------------------------\n");
+	printf("\t|\t\t    WRC RESULT SHEET                       |\n");
+	printf("\t-----------------------------------------------------------\n");
+	printf("\t|   1) ADD NEW RECORD\t        |   2)EDIT EXISTING RECORD |\n");
+	printf("\t-----------------------------------------------------------\n");
+	printf("\t|   3) DELETE EXISTING RECORD\t|   4)SHOW EXISTING RECORD |\n");
+	printf("\t-----------------------------------------------------------");
+	printf("\n\t|   5) TABULATE DATA            |   6)EXIT PROGRAM         |");
+	printf("\n\t-----------------------------------------------------------");
+	printf("\n==>");
+	scanf("%d",&dec);
+	return (dec);	
+}
+void show(struct person *per){
+	system("cls");
+	int count=-1,j=0;
+	char nam[20];
+	printf("Enter the name of the student: ");
+	scanf("%s",nam);
+	for (int i=0;(strcmp(nam,per[i].name)) != 1;i++){
+		count++;
+	}
+	printf("|\tName: %s\t|  Roll: %d\t|  Department: %s\n",per[count].name,per[count].roll,per[count].depart);
+	printf("------------------------------------------------------------------");
+	printf("\n\tSubjects\t|  Marks |");
+	printf("\n\tPhysics \t");
+		printf("%d",&per[count].marks[j]);
+		j++;
+		printf("\n\tApplied Mechanics ");
+		printf("\t%d",&per[count].marks[j]);
+		j++;
+		printf("\n\tDrawing ");
+		printf("\t%d",&per[count].marks[j]);
+		j++;
+		printf("\n\tC Programming ");
+		printf("\t%d",&per[count].marks[j]);
+		j++;
+		printf("\n\tMathematics ");
+		printf("\t%d",&per[count].marks[j]);
+		j++;
+		printf("\n\tBasic Electrical ");
+		printf("\t%d",&per[count].marks[j]);
+}
