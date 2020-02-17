@@ -16,9 +16,6 @@ struct person{
 //	char sub[6][20]={"PHYSICS","MATHEMATICS","DRAWING","BASIC ELECTRICAL","C PROGRAMMING","APPLIED MECHANICS"};
 }p[20];
 main(){
-	strcpy(p[1].name,"anish");
-	p[1].roll = 004;
-	strcpy(p[1].depart,"BCT");
 	start:
 	switch(menu()){
 		case 1:
@@ -46,7 +43,10 @@ main(){
 	goto start;
 }
 void add(struct person *per){
-	int i=0,j=0;
+	int i=-1,j=0;
+	for (int k=0;per[k].name[0]!='\0';k++){
+		i++;
+	}
 	printf("Enter name: ");
 	scanf("%s",per[i].name);
 	printf("\nEnter department: ");
@@ -73,6 +73,7 @@ void add(struct person *per){
 		scanf("%d",&per[i].marks[j]);
 }
 int menu(){
+	system("cls");
 int dec;
 	printf("\t-----------------------------------------------------------\n");
 	printf("\t|\t\t    WRC RESULT SHEET                       |\n");
@@ -90,30 +91,69 @@ int dec;
 void show(struct person *per){
 	system("cls");
 	int count=-1,j=0;
+	float percent;
 	char nam[20];
 	printf("Enter the name of the student: ");
 	scanf("%s",nam);
+	system("cls");
+	//STRUCTURE_COUNT
 	for (int i=0;(strcmp(nam,per[i].name)) != 1;i++){
 		count++;
 	}
-	printf("|\tName: %s\t|  Roll: %d\t|  Department: %s\n",per[count].name,per[count].roll,per[count].depart);
-	printf("------------------------------------------------------------------");
-	printf("\n\tSubjects\t|  Marks |");
-	printf("\n\tPhysics \t");
-		printf("%d",&per[count].marks[j]);
+	printf("----------------------------------------------------------------------\n");
+	printf("|\tName: %s\t|  Roll: %d\t|  Department: %s               |\n",per[count].name,per[count].roll,per[count].depart);
+	printf("----------------------------------------------------------------------");
+	printf("\n\t|  Subjects\t\t   |   Marks |");
+		printf("\n\n\t|  Physics \t");
+		printf("\t   |  %d     |",per[count].marks[j]);
 		j++;
-		printf("\n\tApplied Mechanics ");
-		printf("\t%d",&per[count].marks[j]);
+		printf("\n\n\t|  Applied Mechanics ");
+		printf("\t   |  %d     |",per[count].marks[j]);
 		j++;
-		printf("\n\tDrawing ");
-		printf("\t%d",&per[count].marks[j]);
+		printf("\n\n\t|  Drawing ");
+		printf("\t\t   |  %d     |",per[count].marks[j]);
 		j++;
-		printf("\n\tC Programming ");
-		printf("\t%d",&per[count].marks[j]);
+		printf("\n\n\t|  C Programming ");
+		printf("\t   |  %d     |",per[count].marks[j]);
 		j++;
-		printf("\n\tMathematics ");
-		printf("\t%d",&per[count].marks[j]);
+		printf("\n\n\t|  Mathematics ");
+		printf("\t\t   |  %d     |",per[count].marks[j]);
 		j++;
-		printf("\n\tBasic Electrical ");
-		printf("\t%d",&per[count].marks[j]);
+		printf("\n\n\t|  Basic Electrical ");
+		printf("\t   |  %d     |\n\n",per[count].marks[j]);
+		//PERCENTAGE_CALCULATION
+		for (int i=0;i<6;i++){
+			percent += per[count].marks[i];
+		}
+		percent /= 6;
+		printf("\t---------------------------------");
+		printf("\n\t|  PERCENTAGE:    |  %.2f        |\n",percent);
+		printf("\t---------------------------------\n");
+		printf("\t|  DIVISION:      |       ");
+		//DIVISION_CALCULATION
+		j = percent;
+		/*
+		switch(j){
+			case (j > 80):
+				printf("FIRST DIVISION");
+				break;
+			case (j > 70):
+				
+				break;
+			case (j > 60):
+				
+				break;
+			case (j > 50):
+				
+				break;
+			case (j > 40):
+				
+				break;
+			default:
+				
+				break;
+		}
+		*/
+		printf("       |\n\t---------------------------------");
+		getch();
 }
