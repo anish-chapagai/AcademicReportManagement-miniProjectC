@@ -35,7 +35,7 @@ main(){
 	switch(menu()){
 		case 1:
 			add(p);
-			getch();
+			Sleep(1000);
 			break;
 		case 2:
 			//edit(p);
@@ -46,6 +46,11 @@ main(){
 		case 4:
 			show(p);
 			getch();
+			//because of getch, the character is taken by the program that
+			//is handeled as error and asks for valid option
+			//to remove that unintentional character fflush will remove 
+			//the input taken by getch from entering into the scan function
+			fflush(stdin);
 			break;
 		case 5:
 			tabulate(p);
@@ -63,11 +68,12 @@ main(){
 }
 void add(struct person *per){
 	system("cls");
-	int i=-1,j=0;
+	int i,j=0;
 	float perc=0;
-	for (int k=0;per[k].name[0]!='\0';k++){
-		i++;
+	for (i=0;per[i].name[0]!='\0';i++){
+		
 	}
+	
 	printf("Enter name: ");
 	scanf("%s",per[i].name);
 	printf("\nEnter department: ");
@@ -102,28 +108,29 @@ void add(struct person *per){
 		j=perc/60;
 		switch(j){
 			case (9):
-				per[i].div[6] = {'D','I','S','T'};
+				strcpy(per[i].div,"DIST");
 				break;
 			case (8):
-				
+				strcpy(per[i].div,"FIRST");
 				break;
 			case (7):
-				
+				strcpy(per[i].div,"SECOND");
 				break;
 			case (6):
-				
+				strcpy(per[i].div,"THIRD");
 				break;
 			case (5):
-				
+				strcpy(per[i].div,"FORTH");
 				break;
 			case (4):
-				
+				strcpy(per[i].div,"FIFTH");
 				break;
 			default:
-				
+				strcpy(per[i].div,"FAILED");
 				break;
 		}
 		printf(green"\n\n\t\t\t\tProfile Added Successfully"reset);
+		fflush(stdin);
 }
 int menu(){
 	int i;
@@ -151,28 +158,30 @@ int menu(){
 		else{
 			system("cls");
 			i=0;
-			printf("Enter valid choice:");
-			Sleep(1000);
+			// \a will play windows default warning sound for invalid option
+			printf(red"\a\n\n\n\t\t\t\tINVALID CHOICE\n\t\t\t\tENTER VALID CHOICE"reset);
+			Sleep(100);
 		}
 	}
 	return (atoi(dec));	
 }
 void show(struct person *per){
 	system("cls");
-	int count=-1,j=0;
+	int i,count=-1,j=0;
 	float perc=0;
 	char nam[20];
 	printf(green "Enter the name of the student: ");
 	scanf("%s",nam);
 	system("cls");
 	//STRUCTURE_COUNT
-	for (int i=0;(strcmp(nam,per[i].name)) != 1;i++){
+	for (i=0;(strcmp(nam,per[i].name)) != 1;i++){
 		count++;
 	}
+	printf("%s",per[i].depart);
 		printf(red"\t\t\t\t --------------\n");
  		printf("\t\t\t\t|STUDENT STATUS|\n"); 
 		printf("\t-------------------------------------------------------------\n");
-		printf(green"\t|Name:%16s     |  Roll: %3d\t|  Department: %5s|\n",per[count].name,per[count].roll,per[count].depart);
+		printf(green"\t|Name:%16s     |  Roll: %3d\t|  Department: %s|\n",per[count].name,per[count].roll,per[count].depart);
 		printf(red"\t-------------------------------------------------------------");
 		printf(red"\n\n\t\t--------------------------------------");
 		printf(reset"\n\t\t|  Subjects\t\t   |   Marks |");
@@ -200,11 +209,11 @@ void show(struct person *per){
 		printf(green"\n\t\t|  Basic Electrical ");
 		printf("\t   |  %d     |\n",per[count].marks[j]);
 		printf(red"\t\t--------------------------------------\n\n");
-		printf("\n\t\t--------------------------------");
+		printf("\n\t\t---------------------------");
 		printf("\n\t\t|  PERCENTAGE:    |  %.2f%     |\n",per[count].percent);
-		printf("\t\t--------------------------------\n");
-		printf("\t\t|  DIVISION: %6s     | ",per[count].div);
-		printf("     |\n\t\t--------------------------------\n");
+		printf("\t\t---------------------------\n");
+		printf("\t\t|  DIVISION:      | %6s| ",per[count].div);
+		printf("\n\t\t---------------------------\n");
 }
 void tabulate(struct person *per){
 	int j=0;
