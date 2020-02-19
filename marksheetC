@@ -167,7 +167,12 @@ int menu(){
 }
 void show(struct person *per){
 	system("cls");
-	int i,count=-1,j=0;
+	//checks for existence of record...if not returns to menu
+	if (per[0].name[0]=='\0'){
+	printf(red"\a\n\t\t\tNo Profile to show. Add profile first...\n\n\n"green"Press any key to continue--------->"reset);
+	return;
+	}
+	int i=0,count=-1,j=0;
 	float perc=0;
 	char nam[20];
 	printf(green "Enter the name of the student: ");
@@ -177,11 +182,11 @@ void show(struct person *per){
 	for (i=0;(strcmp(nam,per[i].name)) != 1;i++){
 		count++;
 	}
-	printf("%s",per[i].depart);
+	printf("\n%d\n",count);
 		printf(red"\t\t\t\t --------------\n");
  		printf("\t\t\t\t|STUDENT STATUS|\n"); 
 		printf("\t-------------------------------------------------------------\n");
-		printf(green"\t|Name:%16s     |  Roll: %3d\t|  Department: %s|\n",per[count].name,per[count].roll,per[count].depart);
+		printf(green"\t|Name:%16s     |  Roll: %3d\t|  Department: %s  |\n",per[count].name,per[count].roll,per[count].depart);
 		printf(red"\t-------------------------------------------------------------");
 		printf(red"\n\n\t\t--------------------------------------");
 		printf(reset"\n\t\t|  Subjects\t\t   |   Marks |");
@@ -216,19 +221,30 @@ void show(struct person *per){
 		printf("\n\t\t---------------------------\n");
 }
 void tabulate(struct person *per){
+	system("cls");
 	int j=0;
 	printf("-----------------------------------------------------------------------------------------------------------------------\n");
-	printf("|\tNAME\t\t| ROLL |\t\t\tMARKS\t\t\t\t   | PERCENTAGE |  DIVISION   |\n");
+	printf("|\tNAME\t\t| ROLL |\t\t\tMARKS\t\t\t\t    | PERCENTAGE |  DIVISION   |\n");
 	printf("-----------------------------------------------------------------------------------------------------------------------\n");
-	printf("\t\t\t       | PHYSICS | APPLIED | MATHS | C | DRAWING | BASIC-ELECRICAL |\t\t\t      |\n");
+	printf("\t\t\t       | PHYSICS | APPLIED | MATHS | C  | DRAWING | BASIC-ELECRICAL |\t\t\t      |\n");
 	printf("-----------------------------------------------------------------------------------------------------------------------");
 	for (int i=0;i<10;i++){
 	printf("\n|%-23s|%6d|",per[i].name,per[i].roll);
 	//DIDNT USE FOR  LOOP CAUSE SPACING WAS NOT RIGHT
 	//for (int j=0;j<1;j++){
-		printf("%8d | %7d | %5d | %d| %7d | %15d |",per[i].marks[j],per[i].marks[j+1],per[i].marks[j+2],per[i].marks[j+3],per[i].marks[j+4],per[i].marks[j+5],per[i].marks[j+6]);
+		printf("%8d | %7d | %5d | %3d| %7d | %15d |",per[i].marks[j],per[i].marks[j+1],per[i].marks[j+2],per[i].marks[j+3],per[i].marks[j+4],per[i].marks[j+5],per[i].marks[j+6]);
 	//	}
 	printf("%10.2f  | %s |",per[i].percent,per[i].div);
 	printf("\n-----------------------------------------------------------------------------------------------------------------------");
 	}
+}
+void del(struct person *per){
+	char name[20];
+	int i;
+	printf("Enter the name of the person of which you want to detele record of:\n");
+	scanf("%s",name);
+	for (i=0;strcmp(name,per[i].name)!=1;i++){}//finds the structure position of destination record
+	//operation to delete element of structure
+	
+	i=0;
 }
