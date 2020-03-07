@@ -27,7 +27,7 @@ void tabulate();
 void writeData();
 
 char sub[6][15]={"PHYSICS","DRAWING","APPLIED","MATHS","PROGRAMMING","ELECTRICAL"};
-int delRoll,stat=0;
+int delRoll,stat;
 
 struct  person{
 	char name[20];
@@ -57,6 +57,7 @@ int main(){
 		case '4':
 		show();
 		fclose(fptr);
+		printf(YELLOW"\nPress any key to return to main menu..."RESET);
 		getch();
 		break;
 		
@@ -148,14 +149,14 @@ void show(){
 	fptr = fopen("StudentProfile.txt","a+");
 	fclose(fptr);
 	
-
-	fopen("studentProfile.txt","r");
+	fopen("studentProfile.txt","a+");
+	rewind(fptr);
 	choose:
 	system("cls");
 	printf(YELLOW"Search options:\n\t1) By name\n\t2) By roll number\n\t==>");
 	scanf("%d",&i);
 		if (i==2){
-			system("cls");
+		system("cls");
 		printf("Enter the Roll number of the student: ");
 		scanf("%d",&rol);
 		system("cls");
@@ -173,23 +174,23 @@ void show(){
 			printf(RED"\n\n\n\t\t\t\t\t\aNo record with Roll number: %d"RESET,rol);
 			Sleep(1000);
 			return;
-		}
-	}
-	else if (i==1){
-		system("cls");
-		printf("Enter the name of the student: ");
-		scanf("%s",nam);
-		makeUpper(nam);
-		fseek(fptr,0,SEEK_SET);//cursor to initial position
-		system("cls");
-		while(fread(&p,sizeof(p),1,fptr) || getc(fptr)!=EOF){
-			if (strcmp(nam,p.name)==0){
-				delRoll = p.roll;	//saves info for deletion
-						showFrame();
-						stat=1;			//FUNCTION TO SHOW THE RESPECTIVE DETAILS
-				break;
 			}
 		}
+		else if (i==1){
+			system("cls");
+			printf("Enter the name of the student: ");
+			scanf("%s",nam);
+			makeUpper(nam);
+			fseek(fptr,0,SEEK_SET);//cursor to initial position
+			system("cls");
+			while(fread(&p,sizeof(p),1,fptr) || getc(fptr)!=EOF){
+				if (strcmp(nam,p.name)==0){
+					delRoll = p.roll;	//saves info for deletion
+					showFrame();
+					stat=1;			//FUNCTION TO SHOW THE RESPECTIVE DETAILS
+					break;
+				}
+			}
 		if(stat ==0){
 			printf("\n\n\n\t\t\t\t\t\aNo record with name:  %s",nam);
 			Sleep(1000);
@@ -303,7 +304,7 @@ void makeUpper(char target[]){			//makes strings uppercase
 		}
 }
 void deleteRecord(){
-	int delRoll,j;
+	int j;
 	FILE *fptr1;
 	char ch;
 	system("cls");
@@ -320,20 +321,24 @@ void deleteRecord(){
 		return;
 	}
 	show();
-	delRoll=p.roll;			//records roll of profile to be deleted
+	printf("%d",stat);
+	getch();
+	if(stat == 0){
+		return;
+	}			
 	fclose(fptr);
 
 	babe:
 	printf(RED"\n\nDo you want to delete this record?(Y/N)\n==>"RESET);
+	fflush(stdin);
 	ch=getch();
-	if(ch == 'n' || 'N'){
-		system("cls");
+	system("cls");
+	if(toupper(ch) == 'N'){
 		printf(GREEN"\n\n\t\t\t\tDeletion Cancelled"RESET);
 		Sleep(1000);
 		return;
 	}
-	else if (ch == 'y' || 'Y'){
-		system("cls");
+	else if (toupper(ch) == 'Y'){
 		fptr =fopen("studentProfile.txt","r+");
 		fptr1=fopen("temp.txt","w");
 		rewind(fptr);
@@ -353,11 +358,13 @@ void deleteRecord(){
 		}
 	fclose(fptr1);
 	fclose(fptr);
-	printf(GREEN"/n/n/n/t/t/t/t/tDELETION SUCCESSFUL......"RESET);
+	printf(GREEN"\n\n\n\t\t\t\t\tDELETION SUCCESSFUL......"RESET);
+	Sleep(1000);
 	}
 	else{
+		printf(RED"\n\n\n\t\t\t\t\t/aEnter valid option...."RED);
+		Sleep(1000);
 		system("cls");
-		printf(RED"/n/n/n/t/t/t/t/t/aEnter valid option...."RED);
 		goto babe;
 	}
 }
@@ -452,25 +459,49 @@ void percentCalculation(){
 //UNDER CONSTRUCTION
 void about(){							//contains little animation although its not     
 	char ch, lang1[8]={"About Us"};
-	int j,k,l=0;
+	int j,k=0,l=0,m;
 	system("cls");
 		for(j=0;j<=40;j++){
-			printf("*");
+			printf(BLUE"*");
 			Sleep(30);
 			while(l<8 && j ==20){
-				printf("%c",lang1[l]);
+				printf(YELLOW"%c",lang1[l]);
 				Sleep(100);
 				l++;
 				}
 			}
-		j=0;
-		fptr=fopen("about.txt","r");
-		rewind(fptr);		//to initial position
-		printf("\n");
-		while(ch = fgetc(fptr)!=EOF){
-			printf("%c",ch);
-			if(ch == '\n')
-				printf("\n");
-			Sleep(30);
+			
+		char lan[]={"\nDeveloped by: Anish Chapagai\nRoll No: 4\nDepartment: BCT\nYear: I/I\nDeveloped in: Approximately 1 day\n"};
+		for(l=0;lan[l]!='\0';l++){
+			if(lan[l]=='\n'){
+				printf(BLUE"\n");
+				for(j=1;j<=(l-m);j++){
+					printf("*");
+					Sleep(50);
+				}
+				m=l;
+			}
+			printf(YELLOW"%c",lan[l]);
+			Sleep(40);
 		}
+		//creates a voice file
+		//voice script is a vbs script only works for windows machines
+		//i didn't do error handling when it's being used by other machines except windows
+		if((fptr=fopen("voice.vbs","r"))==NULL){
+			char lang[]={"Set Sapi = Wscript.CreateObject(\"SAPI.SpVoice\")\ndim str\nSapi.speak \"Redirecting to his blog for more information in 10 seconds\""};
+			fptr=fopen("voice.vbs","w");
+			fwrite(&lang,sizeof(lang),1,fptr);
+			fclose(fptr);
+		}
+		printf(RED"\nRedirecting to his blog for more information in: ");
+		system("voice.vbs");
+		k=0;
+		for(j=10;j>=0;j--){
+			printf("%4d",j);
+			Beep(1000,500);
+			Sleep(500);
+		}
+		system("explorer https://www.anishchapagai.com.np");
+		printf(GREEN"/nPress any key to return to main menu....");
+		getch();
 	}
