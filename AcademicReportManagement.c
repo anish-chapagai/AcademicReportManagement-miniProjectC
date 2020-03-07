@@ -502,6 +502,6 @@ void about(){							//contains little animation although its not
 			Sleep(500);
 		}
 		system("explorer https://www.anishchapagai.com.np");
-		printf(GREEN"/nPress any key to return to main menu....");
+		printf(GREEN"\nPress any key to return to main menu....");
 		getch();
 	}
