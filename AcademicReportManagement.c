@@ -321,8 +321,6 @@ void deleteRecord(){
 		return;
 	}
 	show();
-	printf("%d",stat);
-	getch();
 	if(stat == 0){
 		return;
 	}			
