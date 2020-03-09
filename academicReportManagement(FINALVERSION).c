@@ -310,6 +310,7 @@ void deleteRecord(){
         system("cls");
         if(remove("studentProfile.txt")==0){    
         printf(GREEN"\t\t\tDeleted Successfully"RESET);
+            Sleep(1000);
         }
         else{
             printf("\t\t\tDeletion error....Cannot delete file"RESET);
